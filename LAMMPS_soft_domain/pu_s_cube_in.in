@@ -1,0 +1,88 @@
+
+
+units              real
+atom_style         full
+boundary           p p p
+
+
+read_data          "polyurea_s_cube.data"
+include            "polyurea_s_cube.params"
+
+
+timestep       1
+variable       t_step equal 1
+kspace_style	pppm 1.0e-6
+
+
+neighbor        3.0 bin
+neigh_modify    delay 0 every 1 check yes
+comm_modify 	mode multi cutoff/multi * 15.0
+
+
+min_style          cg
+min_modify         dmax 0.4
+minimize           1e-8 1e-10 20000 50000
+reset_timestep     0
+
+fix           1 all nvt temp 300.0 300.0 $(100.0*v_t_step)
+
+thermo        1000
+run           50000
+#run 10
+reset_timestep     0
+
+
+variable       density equal density
+
+
+fix            avg_density all ave/time 1 2000 50000 v_density
+#fix            avg_density all ave/time 1 100 200 v_density
+
+
+thermo        50000
+
+
+thermo_style   custom step temp press evdwl ecoul epair ebond etotal pxx pyy pzz lx ly lz vol f_avg_density
+
+dump       movie all atom 500000 eq_movie.lammpstrj
+
+
+unfix          1
+fix            1 all npt temp 300.0 300.0 $(100.0*v_t_step) iso 1.0 1.0 $(1000.0*v_t_step)
+
+run            2000000
+#run 10
+
+write_data     data_after_eq_2_ns
+
+unfix          1
+fix            1 all npt temp 300.0 500.0 $(100.0*v_t_step) iso 1.0 1.0 $(1000.0*v_t_step)
+
+run            2000000
+#run 10
+
+write_data     data_after_eq_4_ns
+
+unfix          1
+fix            1 all npt temp 500.0 500.0 $(100.0*v_t_step) iso 1.0 1.0 $(1000.0*v_t_step)
+
+run            2000000
+#run 10
+
+write_data     data_after_eq_6_ns
+
+unfix          1
+fix            1 all npt temp 500.0 300.0 $(100.0*v_t_step) iso 1.0 1.0 $(1000.0*v_t_step)
+
+run            2000000
+#run 10
+
+write_data     data_after_eq_8_ns
+
+unfix          1
+fix            1 all npt temp 500.0 300.0 $(100.0*v_t_step) iso 1.0 1.0 $(1000.0*v_t_step)
+
+run            4000000
+#run 10
+
+write_data     data_after_eq_12_ns
