@@ -1,0 +1,22 @@
+polyurea
+  System = polyurea_hard     
+
+PREC  = Normal    # recommend to use PREC=Normal or PREC=Accurate
+ENCUT = 1000      # Kinetic Energy Cutoff in eV
+ISMEAR = 0        # Partial Occupancies for each Orbital -5 DOS, -2 from file, -1 Fermi Smear, 0 Gaussian Smear
+IBRION = 0        # determines how the ions are updated and moved;  -1: no update; 2: ionic relaxation (conjugate gradient algorithm); 0: MD
+MDALGO = 2        # Nose-Hoover thermostat
+ISIF = 2          # Stress calculation and Relaxation of DOFs: for 2: DoFs positions (Y), cell shape (N), cell volume (N)
+SMASS = 1.0       # Nose mass; For SMASS=0, a Nos-mass corresponding to period of 40 time steps will be chosen.
+SIGMA = 0.1       # Insulators/semiconductors=0.1;  metals=0.05
+LREAL = Auto      # LREAL determines whether the projection operators are evaluated in real-space or in reciprocal space.
+ISYM = 0          # For ISYM=-1 | 0, the use of symmetry is switched off. strongly recommended for MD
+TEBEG = 450       # initial temperature
+TEEND = 450       # final temperature
+NSW = 3000        # NSW sets the maximum number of ionic steps;
+POTIM = 0.5       # timestep in fs
+
+NPAR = 16         # ~sqrt(# of cores), NCORE = # of cores/ NPAR; NPAR determines the number of bands that are treated in parallel. 
+
+LWAVE = .FALSE.
+LCHARG = .FALSE. 
